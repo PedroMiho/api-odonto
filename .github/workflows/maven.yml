@@ -29,30 +29,6 @@ jobs:
       - name: Permitir execucao do Maven Wrapper
         run: chmod +x mvnw
 
-      - name: Verificar variaveis de ambiente
-        env:
-          DB_URL: ${{ secrets.DB_URL }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-        run: |
-          if [ -z "$DB_URL" ]; then
-            echo "ERRO: DB_URL nao configurada."
-            exit 1
-          fi
-
-          if [[ "$DB_URL" != jdbc:mysql://* ]]; then
-            echo "ERRO: DB_URL deve iniciar com jdbc:mysql://"
-            exit 1
-          fi
-
-          if [ -z "$DB_USERNAME" ] || [ -z "$DB_PASSWORD" ] || [ -z "$JWT_SECRET" ]; then
-            echo "ERRO: Verifique DB_USERNAME, DB_PASSWORD e JWT_SECRET."
-            exit 1
-          fi
-
-          echo "Variaveis configuradas corretamente."
-
       - name: Executar testes e gerar o pacote
         env:
           DB_URL: ${{ secrets.DB_URL }}
