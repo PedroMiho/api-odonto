@@ -1,4 +1,3 @@
-
 name: Agendamento Odontologico CI/CD
 
 on:
@@ -14,6 +13,11 @@ jobs:
   test-and-build:
     runs-on: ubuntu-latest
 
+    # Executa os comandos "run" dentro da pasta do projeto.
+    defaults:
+      run:
+        working-directory: api-odonto
+
     steps:
       - name: Baixar o codigo
         uses: actions/checkout@v4
@@ -24,7 +28,9 @@ jobs:
           distribution: temurin
           java-version: "21"
           cache: maven
-          cache-dependency-path: pom.xml
+
+          # O caminho do cache é relativo à raiz do repositório.
+          cache-dependency-path: api-odonto/pom.xml
 
       - name: Permitir execucao do Maven Wrapper
         run: chmod +x mvnw
